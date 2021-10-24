@@ -1,6 +1,6 @@
 
-// Create the top case for a grid of pressable buttons
-module button_hole_grid(buttons = 12,         // how many buttons?
+// Creates a top case for a grid of pressable buttons
+module button_hole_grid(buttons = 10,        // how many buttons?
                         rows = 2,            // number of rows the buttons should be arranged in.
                         button_radius = 5.5, // Exact radius of pressable part of buttons.
                         button_spacing = 17, // centre-to-centre distance of buttons.
@@ -12,12 +12,12 @@ module button_hole_grid(buttons = 12,         // how many buttons?
 
     hole_diameter = 2 * hole_radius;
     button_count_per_row = buttons / rows;
-    space_count = button_count_per_row - 1;
+    column_space_count = button_count_per_row - 1;
 
     row_space_count = rows - 1;
-    row_width = hole_diameter + button_spacing;
-    case_width = (rows * hole_diameter) + (row_space_count * button_spacing) + (2 * edge_margin);
-    case_length = (space_count * button_spacing)
+    row_width = button_spacing;
+    case_width = hole_diameter + (row_space_count * button_spacing) + (edge_margin * 2);
+    case_length = (column_space_count * button_spacing)
                 + hole_diameter
                 + (2 * edge_margin);
 
