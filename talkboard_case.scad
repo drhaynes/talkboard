@@ -43,12 +43,24 @@ module button_hole_grid(buttons = 10,           // how many buttons?
     }
 }
 
+module top_case(thickness = 2, speaker_diameter = 40, grill_edge_margin = 2) {
+    epsilon = 0.01; // to ensure CSG subtraction works ok
+    speaker_radius = speaker_diameter / 2;
+    
+    difference() {
+        button_hole_grid (
+            buttons = 6,
+            rows = 2,
+            edge_margin_above = 6.5,
+            edge_margin_below = 6.5,
+            edge_margin_before = 50,
+            edge_margin_after = 10,
+            thickness = thickness
+        );
+        translate([speaker_radius + grill_edge_margin, speaker_radius + grill_edge_margin, -epsilon]) {
+            cylinder(h = 1.5 * thickness, r = speaker_radius);
+        }
+    }
+}
 
-button_hole_grid (
-    buttons = 6,
-    rows = 2,
-    edge_margin_above = 6.5,
-    edge_margin_below = 6.5,
-    edge_margin_before = 50,
-    edge_margin_after = 10
-);
+top_case();
