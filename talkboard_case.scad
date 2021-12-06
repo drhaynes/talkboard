@@ -43,4 +43,12 @@ module button_hole_grid(buttons = 10,           // how many buttons?
     }
 }
 
-button_hole_grid(buttons = 6, rows = 2);
+
+button_hole_grid (
+    buttons = 6,
+    rows = 2,
+    edge_margin_above = 6.5,
+    edge_margin_below = 6.5,
+    edge_margin_before = 50,
+    edge_margin_after = 10
+);
