@@ -3,7 +3,7 @@
 module button_hole_grid(buttons = 10,           // how many buttons?
                         rows = 2,               // number of rows the buttons should be arranged in.
                         button_radius = 5.5,    // Exact radius of pressable part of buttons.
-                        button_spacing = 17,    // centre-to-centre distance of buttons.
+                        button_spacing = 17.5,  // centre-to-centre distance of buttons (17.5 is std for pcb buttons).
                         edge_margin_above = 4,  // how much space around the edge of the buttons?
                         edge_margin_below = 4,
                         edge_margin_before = 4,
@@ -43,7 +43,7 @@ module button_hole_grid(buttons = 10,           // how many buttons?
     }
 }
 
-module top_case(thickness = 2, speaker_diameter = 40, grill_edge_margin = 2) {
+module top_case(thickness = 1.2, speaker_diameter = 40, grill_edge_margin = 2) {
     epsilon = 0.01; // to ensure CSG subtraction works ok
     speaker_radius = speaker_diameter / 2;
     
@@ -51,7 +51,7 @@ module top_case(thickness = 2, speaker_diameter = 40, grill_edge_margin = 2) {
         button_hole_grid (
             buttons = 6,
             rows = 2,
-            edge_margin_above = 6.5,
+            edge_margin_above = 7.5,
             edge_margin_below = 6.5,
             edge_margin_before = 50,
             edge_margin_after = 10,
