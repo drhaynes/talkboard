@@ -36,8 +36,17 @@ module hole_grid(holes = 10,             // how many holes?
    }
 }
 
-module speaker_grill(radius = 20, depth = 2) {
-   cylinder(h = 1.5 * depth, r = radius);
+module speaker_grill_round(radius = 20, aperture_radius = 1.0, aperture_spacing = 3, depth = 2) {
+   intersection() {
+      for (x = [-radius:aperture_spacing:radius]) {
+         for (y = [-radius:aperture_spacing:radius]) {
+            translate([x, y, 0]) {
+               cylinder(h = depth, r = aperture_radius);
+            }
+         }
+      }
+      cylinder(h = depth, r = radius);
+   }
 }
 
 module top_case(length = 100,
@@ -67,7 +76,7 @@ module top_case(length = 100,
       // speaker grill
       speaker_pos = speaker_grill_radius + speaker_grill_edge_margin;
       translate([speaker_pos, speaker_pos, - epsilon]) {
-         speaker_grill(radius = speaker_grill_radius, depth = depth);
+         speaker_grill_round(radius = speaker_grill_radius, depth = depth * 2);
       }
    }
 
