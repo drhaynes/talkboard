@@ -1,66 +1,87 @@
 
-// Creates a top case for a grid of pressable buttons
-module button_hole_grid(buttons = 10,           // how many buttons?
-                        rows = 2,               // number of rows the buttons should be arranged in.
-                        button_radius = 5.5,    // Exact radius of pressable part of buttons.
-                        button_spacing = 17.5,  // centre-to-centre distance of buttons (17.5 is std for pcb buttons).
-                        edge_margin_above = 4,  // how much space around the edge of the buttons?
-                        edge_margin_below = 4,
-                        edge_margin_before = 4,
-                        edge_margin_after = 4,
-                        thickness = 3) {        // how thick should the case be?
-    nudge = 0.75; // to ensure buttons fit in holes
-    hole_radius = button_radius + nudge;
-    epsilon = 0.001; // to ensure CSG subtraction works ok
+use <../openscad_modules/primitives/lib.scad>;
 
-    hole_diameter = 2 * hole_radius;
-    button_count_per_row = buttons / rows;
-    column_space_count = button_count_per_row - 1;
+// Creates a grid of cylinders for cutting out a matrix of holes (e.g. for pushbuttons)
+module hole_grid(holes = 10,             // how many holes?
+                 rows = 2,               // number of rows the buttons should be arranged in.
+                 hole_radius = 5.5,      // Set this to the exact radius (e.g. of pressable part of buttons).
+                 hole_spacing = 17.5,    // centre-to-centre distance of buttons (17.5 is std for pcb buttons).
+                 height = 3) {        // how tall should the cylinders for the hole be?
+   nudge = 0.75; // to ensure buttons fit in holes
+   adjusted_hole_radius = hole_radius + nudge;
+   epsilon = 0.001; // to ensure CSG subtraction works ok
 
-    row_space_count = rows - 1;
-    row_width = button_spacing;
-    case_width = hole_diameter + (row_space_count * button_spacing) + (edge_margin_above + edge_margin_below);
-    case_length = (column_space_count * button_spacing)
-                + hole_diameter
-                + (edge_margin_before + edge_margin_after);
+   hole_diameter = 2 * adjusted_hole_radius;
+   hole_count_per_row = holes / rows;
+   column_space_count = hole_count_per_row - 1;
 
-    difference() {
-        cube([case_length, case_width, thickness]);
-        // Move to first button hole position
-        translate([(edge_margin_before + button_radius), edge_margin_below + button_radius, -epsilon]) {
-            for(row = [0:1:rows-1]) {
-                // Calculate row position
-                translate([0, (row * row_width), 0]) {
-                    for(button = [0:1:button_count_per_row-1]) {
-                        // Calculate button position
-                        translate([(button_spacing * button), 0, 0]) {
-                            cylinder(h = 3 * thickness, r = hole_radius, center = true);
-                        }
-                    }
-                }
+   row_space_count = rows - 1;
+   row_width = hole_spacing;
+
+   difference() {
+      // Move to first hole position
+      translate([hole_radius, hole_radius, - epsilon]) {
+         for (row = [0:1:rows - 1]) {
+            // Calculate row position
+            translate([0, (row * row_width), 0]) {
+               for (hole = [0:1:hole_count_per_row - 1]) {
+                  // Calculate hole position
+                  translate([(hole_spacing * hole), 0, 0]) {
+                     cylinder(h = height, r = hole_radius, center = true);
+                  }
+               }
             }
-        }
-    }
+         }
+      }
+   }
 }
 
-module top_case(thickness = 1.2, speaker_diameter = 40, grill_edge_margin = 2) {
-    epsilon = 0.01; // to ensure CSG subtraction works ok
-    speaker_radius = speaker_diameter / 2;
-    
-    difference() {
-        button_hole_grid (
-            buttons = 6,
-            rows = 2,
-            edge_margin_above = 7.5,
-            edge_margin_below = 6.5,
-            edge_margin_before = 50,
-            edge_margin_after = 10,
-            thickness = thickness
-        );
-        translate([speaker_radius + grill_edge_margin, speaker_radius + grill_edge_margin, -epsilon]) {
-            cylinder(h = 1.5 * thickness, r = speaker_radius);
-        }
-    }
+module speaker_grill(radius = 20, depth = 2) {
+   cylinder(h = 1.5 * depth, r = radius);
 }
 
-top_case();
+module top_case(length = 100,
+                width = 60,
+                wall_thickness = 2,
+                depth = 1.2,
+                corner_radius = 4,
+                speaker_grill_radius = 20,
+                speaker_grill_edge_margin = 2) {
+
+   epsilon = 0.01; // to ensure CSG subtraction works ok
+   size_padding = wall_thickness * 2;
+
+   difference() {
+      // basic shape
+      rounded_rect(length = length + size_padding, width = width + size_padding, thickness = depth);
+
+      // button matrix
+      translate([50, 7.5, 0]) {
+         hole_grid(
+         holes= 6,
+         rows = 2,
+         height = depth * 3
+         );
+      }
+
+      // speaker grill
+      speaker_pos = speaker_grill_radius + speaker_grill_edge_margin;
+      translate([speaker_pos, speaker_pos, - epsilon]) {
+         speaker_grill(radius = speaker_grill_radius, depth = depth);
+      }
+   }
+
+}
+
+// Render quality configuration
+// ============================
+// Minimum angle for fragment. Set to lower for higher quality. Min is 0.01.
+// Suggested value for working: 10
+// Suggested vlaue for rendering: 0.5
+$fa = 10;
+// Minimum size of fragment. Set to lower for higher quality.
+// Only applicable is $fa is low, so can be mostly left alone at 0.1.
+$fs = 0.1;
+
+// Create the actual case
+top_case(length = 102, width = 40, wall_thickness = 2);
