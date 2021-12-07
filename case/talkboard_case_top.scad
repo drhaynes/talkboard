@@ -1,5 +1,5 @@
 
-use <../openscad_modules/primitives/lib.scad>;
+use <../../openscad_modules/primitives/lib.scad>;
 
 // Creates a grid of cylinders for cutting out a matrix of holes (e.g. for pushbuttons)
 module hole_grid(holes = 10,             // how many holes?
@@ -36,7 +36,10 @@ module hole_grid(holes = 10,             // how many holes?
    }
 }
 
-module speaker_grill_round(radius = 20, aperture_radius = 1.0, aperture_spacing = 3, depth = 2) {
+module speaker_grill_round(radius = 20,
+                           aperture_radius = 1.0,
+                           aperture_spacing = 3,
+                           depth = 2) {
    intersection() {
       for (x = [-radius:aperture_spacing:radius]) {
          for (y = [-radius:aperture_spacing:radius]) {
