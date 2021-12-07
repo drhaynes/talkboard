@@ -20,14 +20,14 @@ module hole_grid(holes = 10,             // how many holes?
 
    difference() {
       // Move to first hole position
-      translate([hole_radius, hole_radius, - epsilon]) {
+      translate([adjusted_hole_radius, adjusted_hole_radius, - epsilon]) {
          for (row = [0:1:rows - 1]) {
             // Calculate row position
             translate([0, (row * row_width), 0]) {
                for (hole = [0:1:hole_count_per_row - 1]) {
                   // Calculate hole position
                   translate([(hole_spacing * hole), 0, 0]) {
-                     cylinder(h = height, r = hole_radius, center = true);
+                     cylinder(h = height, r = adjusted_hole_radius, center = true);
                   }
                }
             }
