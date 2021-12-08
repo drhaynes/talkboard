@@ -10,13 +10,18 @@ module bottom_case(length = 100,
    epsilon = 0.01; // to ensure CSG subtraction works ok
 
    difference() {
-      // basic shape
-      rounded_rect(length = length, width = width, thickness = depth);
+      // Basic shape:
+      rounded_rect(length = length, width = width, thickness = depth, corner_radius = corner_radius);
 
-      // internal cutout
+      // Internal cutout:
       inner_offset = 2 * wall_thickness;
+      // The inner radius is calculated to maintain constant wall thickness.
+      inner_radius = corner_radius - (wall_thickness / 2);
       translate([wall_thickness, wall_thickness, wall_thickness]) {
-         rounded_rect(length = length - inner_offset, width = width - inner_offset, thickness = depth);
+         rounded_rect(length = length - inner_offset,
+                      width = width - inner_offset,
+                      thickness = depth,
+                      corner_radius = inner_radius);
       }
    }
 }

@@ -65,7 +65,10 @@ module top_case(length = 100,
 
    difference() {
       // basic shape
-      rounded_rect(length = length + size_padding, width = width + size_padding, thickness = depth);
+      rounded_rect(length = length + size_padding,
+                   width = width + size_padding,
+                   thickness = depth,
+                   corner_radius = corner_radius);
 
       // button matrix
       translate([50, 7.5, 0]) {
