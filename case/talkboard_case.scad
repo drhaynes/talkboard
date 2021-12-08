@@ -21,11 +21,11 @@ wall_thickness = 2;
 
 visual_spacing = 20;
 
-color("#849fe8") {
+color("#b8c7f5") {
    bottom_case(length = length, width = width, depth = depth, wall_thickness = wall_thickness);
 }
 
-color("#f1f1f1") {
+color("#f6f6f6") {
    translate([0, 0, depth + visual_spacing]) {
       top_case(length = length, width = width, depth = wall_thickness, wall_thickness = wall_thickness);
    }
