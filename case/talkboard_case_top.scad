@@ -82,7 +82,6 @@ module top_case(length = 100,
          speaker_grill_round(radius = speaker_grill_radius, depth = depth * 2);
       }
    }
-
 }
 
 // Render quality configuration
