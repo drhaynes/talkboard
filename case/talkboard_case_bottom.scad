@@ -25,6 +25,7 @@ module bottom_case(length = 100,
       }
    }
 }
+
 // Render quality configuration
 // ============================
 // Minimum angle for fragment. Set to lower for higher quality. Min is 0.01.
