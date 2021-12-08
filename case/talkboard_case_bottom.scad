@@ -13,7 +13,11 @@ module bottom_case(length = 100,
       // basic shape
       rounded_rect(length = length, width = width, thickness = depth);
 
-      // internal cutout - TODO
+      // internal cutout
+      inner_offset = 2 * wall_thickness;
+      translate([wall_thickness, wall_thickness, wall_thickness]) {
+         rounded_rect(length = length - inner_offset, width = width - inner_offset, thickness = depth);
+      }
    }
 }
 // Render quality configuration
