@@ -1,6 +1,7 @@
 
 use <../../openscad_modules/primitives/lib.scad>;
 use <../../openscad_modules/case_design/lib.scad>;
+use <../../openscad_modules/fixtures/lib.scad>;
 
 module top_case(length = 100,
                 width = 60,
@@ -8,9 +9,10 @@ module top_case(length = 100,
                 depth = 1.2,
                 corner_radius = 4,
                 speaker_grill_radius = 20,
-                speaker_grill_edge_margin = 4) {
+                speaker_grill_edge_margin = 4,
+                fixtures_inset = 5) {
 
-   epsilon = 0.01; // to ensure CSG subtraction works ok
+   epsilon = 0.02; // to ensure CSG subtraction works ok
    size_padding = 0; //wall_thickness * 2;
 
    difference() {
@@ -34,6 +36,18 @@ module top_case(length = 100,
       translate([speaker_pos, speaker_pos, - epsilon]) {
          speaker_grill_round(radius = speaker_grill_radius, depth = depth * 2);
       }
+
+      two_epsilon = 2 * epsilon;
+
+      // bolt holes
+      translate([fixtures_inset, fixtures_inset, -epsilon])
+         countersunk_hole_m3(hole_depth = wall_thickness + two_epsilon);
+      translate([fixtures_inset, width - fixtures_inset, -epsilon])
+         countersunk_hole_m3(hole_depth = wall_thickness + two_epsilon);
+      translate([length - fixtures_inset, fixtures_inset, -epsilon])
+         countersunk_hole_m3(hole_depth = wall_thickness + two_epsilon);
+      translate([length - fixtures_inset, width - fixtures_inset, -epsilon])
+         countersunk_hole_m3(hole_depth = wall_thickness + two_epsilon);
    }
 }
 
