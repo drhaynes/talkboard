@@ -14,19 +14,29 @@ $fs = 0.1;
 
 
 // Create the actual case
-length = 102;
-width = 40;
-depth = 20;
+length = 106;
+width = 44;
+depth = 33;
 wall_thickness = 2;
+padding_for_walls = wall_thickness * 2;
 
 visual_spacing = 20;
 
+// M3 bolt & nut dimensions
+
+
 color("#b8c7f5") {
-   bottom_case(length = length, width = width, depth = depth, wall_thickness = wall_thickness);
+   bottom_case(length = length + padding_for_walls,
+               width = width + padding_for_walls,
+               depth = depth + wall_thickness,
+               wall_thickness = wall_thickness);
 }
 
 color("#f6f6f6") {
    translate([0, 0, depth + visual_spacing]) {
-      top_case(length = length, width = width, depth = wall_thickness, wall_thickness = wall_thickness);
+      top_case(length = length + padding_for_walls,
+               width = width + padding_for_walls,
+               depth = wall_thickness,
+               wall_thickness = wall_thickness);
    }
 }

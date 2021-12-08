@@ -8,10 +8,10 @@ module top_case(length = 100,
                 depth = 1.2,
                 corner_radius = 4,
                 speaker_grill_radius = 20,
-                speaker_grill_edge_margin = 2) {
+                speaker_grill_edge_margin = 4) {
 
    epsilon = 0.01; // to ensure CSG subtraction works ok
-   size_padding = wall_thickness * 2;
+   size_padding = 0; //wall_thickness * 2;
 
    difference() {
       // basic shape
@@ -21,7 +21,7 @@ module top_case(length = 100,
                    corner_radius = corner_radius);
 
       // button matrix
-      translate([50, 7.5, 0]) {
+      translate([50, 9.5, 0]) {
          hole_grid(
          holes= 6,
          rows = 2,

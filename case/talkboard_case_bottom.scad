@@ -1,9 +1,9 @@
 
 use <../../openscad_modules/primitives/lib.scad>;
 
-module bottom_case(length = 100,
-                   width = 60,
-                   wall_thickness = 2,
+module bottom_case(length = 100,          // outer dimensions - not a great API, but ok for now
+                   width = 60,            // ideally we'd want to specify inner dimensions... or at least
+                   wall_thickness = 2,    // an option or alternative module for inner/outer.
                    depth = 20,
                    corner_radius = 4) {
 
